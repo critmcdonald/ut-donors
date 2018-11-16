@@ -1,0 +1,39 @@
+---
+title: "UT Donor analysis"
+output: html_notebook
+---
+
+```{r}
+library("tidyverse")
+```
+
+## Import the data
+
+```{r}
+donors <- read_csv("data-done/donors.csv")
+```
+
+## Sum amounts by type
+
+```{r}
+donors %>% 
+  group_by(DONOR_TYPE) %>% 
+  summarize(SUM_BY_TYPE = sum(DONATION)) %>% 
+  arrange(desc(SUM_BY_TYPE))
+```
+
+
+## Sum amounts by year
+
+```{r}
+by_year <- donors %>% 
+  group_by(YEAR = year(DONATION_DATE)) %>% 
+  summarize(AMOUNT = sum(DONATION))
+by_year
+```
+
+
+```{r}
+ggplot(by_year, aes(x=YEAR, y=AMOUNT)) + geom_bar(stat="identity")
+```
+

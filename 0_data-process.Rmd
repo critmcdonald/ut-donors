@@ -3,8 +3,24 @@ title: "Combining donor lists"
 output: html_notebook
 ---
 
-We are starting with an Excel spreadsheet that has three sheets. The file was downloaded from `https://utexas.app.box.com/s/b6jzw3p7tvdc02x14pcefdmvqk056tex/file/349382799454`, but the file was renamed `donors.xlsx` and the sheets are names `part1`, `part2` and `part3`.
+## Data preparation
 
+- We are starting with an Excel spreadsheet `data-raw/Donor_History_responsive - no id.xlsx`. It is a list of donations to the University of Texas over a 10-year period, acquired by UT Austin student Carlos Garcia through an open records request.
+- The spreadsheet has three sheets: "Part 1", "Part 2" and "Part 3"
+- Our goal here is to combine the three sheets into a single CSV file.
+
+### Install package
+
+These are the packages required for this notebook, commented out in case they are already installed.
+
+
+```{r}
+# install.packages("tidyverse")
+# install.packages("readxl")
+# install.packages("lubridate")
+```
+
+### Load necesary packages
 
 ```{r}
 library(tidyverse)
@@ -12,21 +28,25 @@ library(readxl)
 library(lubridate)
 ```
 
+### Import the three sheets as dataframes
+
 ```{r}
 part1 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 1")
 part2 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 2")
 part3 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 3")
 ```
 
-Merge the three files:
+### Merge the three dataframes
 
 ```{r}
 combined <- rbind(part1, part2, part3) %>% 
   mutate(DONATION_DATE = dmy(DONATION_DATE))
 ```
 
-Export as csv
+### Export as csv
+
 ```{r}
 combined %>% write_csv("data-done/donors.csv")
 ```
+
 
