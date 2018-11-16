@@ -1,0 +1,32 @@
+---
+title: "Combining donor lists"
+output: html_notebook
+---
+
+We are starting with an Excel spreadsheet that has three sheets. The file was downloaded from `https://utexas.app.box.com/s/b6jzw3p7tvdc02x14pcefdmvqk056tex/file/349382799454`, but the file was renamed `donors.xlsx` and the sheets are names `part1`, `part2` and `part3`.
+
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+```
+
+```{r}
+part1 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 1")
+part2 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 2")
+part3 <- read_excel("data-raw/Donor_History_responsive - no id.xlsx", sheet = "Part 3")
+```
+
+Merge the three files:
+
+```{r}
+combined <- rbind(part1, part2, part3) %>% 
+  mutate(DONATION_DATE = dmy(DONATION_DATE))
+```
+
+Export as csv
+```{r}
+combined %>% write_csv("data-done/donors.csv")
+```
+
