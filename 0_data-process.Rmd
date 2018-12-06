@@ -1,6 +1,6 @@
 ---
 title: "Combining donor lists"
-output: html_notebook
+output: github_document
 ---
 
 ## Data preparation
@@ -18,6 +18,8 @@ These are the packages required for this notebook, commented out in case they ar
 # install.packages("tidyverse")
 # install.packages("readxl")
 # install.packages("lubridate")
+# install.packages("rmarkdown")
+
 ```
 
 ### Load necesary packages
